@@ -1,7 +1,7 @@
 import { Link, useLoaderData } from 'react-router-dom';
 import { Grid, Typography, Card, CardContent } from '@mui/material';
 
-export const pokemonLoader = async () => {
+export const pokemonListLoader = async () => {
   const results = await fetch('https://pokeapi.co/api/v2/pokemon');
 
   if (!results.ok) throw new Error('Something went wrong!');
@@ -12,9 +12,8 @@ export const pokemonLoader = async () => {
 
 const Home = () => {
   const { pokemons } = useLoaderData();
-  console.log(pokemons);
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} py={2}>
       {pokemons.results.map(({ name, url }) => (
         <Grid item xs={12} sm={4} key={name}>
           <Link to={`pokemon/${name}`}>
@@ -25,6 +24,9 @@ const Home = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 textAlign: 'center',
+                ':hover': {
+                  boxShadow: 10,
+                },
               }}
             >
               <CardContent>

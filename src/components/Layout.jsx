@@ -10,8 +10,7 @@ const Layout = () => {
         alignItems="center"
         p={2}
         sx={{
-          possition: 'sticky',
-          top: 0,
+          borderBottom: ' 1px solid rgb(65 62 62 / 87%)',
         }}
       >
         <Container maxWidth="md">

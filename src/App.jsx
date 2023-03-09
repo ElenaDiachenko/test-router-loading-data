@@ -5,9 +5,9 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import Layout from 'components/Layout';
-import Home, { pokemonLoader } from 'pages/Home';
+import Home, { pokemonListLoader } from 'pages/Home';
 import Error from 'pages/Error';
-import Pokemon from 'pages/Pokemon';
+import Pokemon, { pokemonLoader } from 'pages/Pokemon';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,10 +15,14 @@ const router = createBrowserRouter(
       <Route
         index
         element={<Home />}
-        loader={pokemonLoader}
+        loader={pokemonListLoader}
         errorElement={<Error />}
       />
-      <Route element={<Pokemon />} path="pokemon/:name" />
+      <Route
+        element={<Pokemon />}
+        loader={pokemonLoader}
+        path="pokemon/:name"
+      />
     </Route>,
   ),
 );
