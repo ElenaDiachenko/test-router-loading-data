@@ -1,11 +1,12 @@
 import { Suspense } from 'react';
-import { defer, useLoaderData, Await } from 'react-router-dom';
+import { defer, useLoaderData, Await, json } from 'react-router-dom';
 import { PokemonItem } from 'components/PokemonItem';
 import { Typography } from '@mui/material';
 
 const getPokemon = async (name) => {
   const results = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
   if (!results.ok) throw new Error('Something went wrong!');
+
   const pokemon = await results.json();
   return pokemon;
 };

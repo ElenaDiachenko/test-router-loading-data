@@ -22,6 +22,7 @@ const router = createBrowserRouter(
         element={<Pokemon />}
         loader={pokemonLoader}
         path="pokemon/:name"
+        errorElement={<Error />}
       />
     </Route>,
   ),
