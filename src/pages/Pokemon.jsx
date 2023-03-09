@@ -1,47 +1,41 @@
-import { useLoaderData } from 'react-router-dom';
-import { Typography, Card, CardContent, CardMedia } from '@mui/material';
+import { Suspense } from 'react';
+import { defer, useLoaderData, Await } from 'react-router-dom';
+import { PokemonItem } from 'components/PokemonItem';
+import { Typography } from '@mui/material';
 
-export const pokemonLoader = async ({ params }) => {
-  const results = await fetch(
-    `https://pokeapi.co/api/v2/pokemon/${params.name}`,
-  );
-
+const getPokemon = async (name) => {
+  const results = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
   if (!results.ok) throw new Error('Something went wrong!');
-
   const pokemon = await results.json();
-
   return pokemon;
 };
 
+export const pokemonLoader = ({ params }) => {
+  return defer({
+    pokemon: getPokemon(params.name),
+  });
+};
+
 const Pokemon = () => {
-  const pokemon = useLoaderData();
+  const { pokemon } = useLoaderData();
   return (
-    <Card
-      sx={{
-        color: 'inherit',
-        background: 'rgb(65 62 62 / 87%)',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        textAlign: 'center',
-        width: '300px',
-        height: '350px',
-        margin: ' 16px auto',
-      }}
-    >
-      <CardMedia
-        image={pokemon.sprites.front_default}
-        component="img"
-        alt={pokemon.name}
-        title={pokemon.name}
-        sx={{ height: '85%' }}
-      />
-      <CardContent>
-        <Typography variant="h6" component="h1">
-          {pokemon.name}
-        </Typography>
-      </CardContent>
-    </Card>
+    <>
+      <Typography
+        variant="h6"
+        component="h1"
+        mt={2}
+        sx={{
+          textAlign: 'center',
+        }}
+      >
+        Pokemon card
+      </Typography>
+      <Suspense fallback={<h2>Loading...</h2>}>
+        <Await resolve={pokemon}>
+          <PokemonItem />
+        </Await>
+      </Suspense>
+    </>
   );
 };
 

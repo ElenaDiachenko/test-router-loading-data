@@ -10,7 +10,8 @@ const getPokemons = async () => {
   const data = await results.json();
   return data.results;
 };
-export const pokemonListLoader = async () => {
+
+export const pokemonListLoader = () => {
   return defer({
     pokemons: getPokemons(),
   });
@@ -18,7 +19,6 @@ export const pokemonListLoader = async () => {
 
 const Home = () => {
   const { pokemons } = useLoaderData();
-  console.log(pokemons);
   return (
     <Grid container spacing={3} py={2}>
       <Suspense fallback={<h2>Loading ...</h2>}>
